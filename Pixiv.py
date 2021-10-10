@@ -87,7 +87,7 @@ class PixivSpider(object):
         :return:
         """
         params = {
-            'mode': 'daily',
+            'mode': 'daily_r18',
             'content': 'illust',
             'p': f'{num}',
             'format': 'json'
@@ -102,22 +102,24 @@ class PixivSpider(object):
             illust_user = url['user_id']
             yield illust_id  # 生成PID
             self.r.set(illust_id, illust_user)
-
+    # 方法
     @classmethod
     def pixiv_spider_go(cls, data):
         cls.data = data
 
     @classmethod
     def pixiv_main(cls):
-        cookie = pixiv.r.get('cookie')
-        if not cookie:
-            cookie = input('请输入一个cookie：')
-            pixiv.r.set('cookie', cookie)
+        # cookie = pixiv.r.get('cookie')
+        # print(cookie)
+        # if not cookie:
+        #     cookie = input('请输入一个cookie：')
+        #     pixiv.r.set('cookie', cookie)
         cls.headers = {
             'accept': 'application/json',
             'accept-language': 'zh-CN,zh;q=0.9,zh-TW;q=0.8,en-US;q=0.7,en;q=0.6',
             'dnt': '1',
-            'cookie': f'{cookie}',
+            # 'cookie': f'{cookie}',
+            'cookie': 'first_visit_datetime_pc=2021-09-20+20:55:40; p_ab_id=4; p_ab_id_2=3; p_ab_d_id=2061299931; yuid_b=IUQFCRE; PHPSESSID=59549964_YqYMo80M9aeuv0n5jUzS1JUfBv2BAGOL; device_token=5af45dc2c9e3b9d0355170c7bf432692; c_type=22; privacy_policy_notification=0; a_type=0; b_type=1; login_ever=yes; _gcl_au=1.1.1997080336.1633866779; user_language=zh; adr_id=CwLPMR0SxlahsXIqZjO1pgjCHdhBNmcgsk3J4Y4aFIaMZSFC; tags_sended=1; categorized_tags=m3EJRa33xU; tag_view_ranking=dE3mj7oMnh~0xsDLqCEW6~jfnUZgnpFl~sQC4pGQx9E~zIv0cf5VVk~2vr9uR1Ge4~TeagKD17NY~2mzr2MOXmt~FPCeANM2Bm~G86MQvTVBQ~WVrsHleeCL~HvefDd7ZGT~azESOjmQSV~BtXd1-LPRH~wmxKAirQ_H~DXrGYO-B8o~D9BseuUB5Z~LX3_ayvQX4; privacy_policy_agreement=3; __cf_bm=QIMPa9_M9v33koxAoUstzdJcrwhFyxcoseme4NPszCE-1633871574-0-AW6co1VGCAqVK96nksGbGa/JlG2NxBRUrhV7LorfMkx80dyACaQIYjzGj/slB3O41q3GLSjiVlT7QicPGcKb6u53LbL+pcy/ZWdytRBhTn+ejjMsw7fXwsMSbH0lh39T5WtJLbgBKcXnKpTMeDv9l5ZtgNXPcU/P/sTUeJsrLs8+lhJxL+Zmzxu6rokzee6nUg==',
             'referer': 'https://www.pixiv.net/',
             'sec-fetch-mode': 'cors',
             'sec-fetch-site': 'same-origin',
@@ -135,7 +137,9 @@ class PixivSpider(object):
 
 
 if __name__ == '__main__':
+    #创建爬虫实例
     pixiv = PixivSpider()
+    #执行爬虫主方法
     pixiv.pixiv_main()
     # for id_url in pixiv.get_list():
     #     pixiv.get_img(id_url)
